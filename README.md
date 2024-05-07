@@ -1,31 +1,70 @@
-# React + TypeScript + Vite
+# Component Based UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Getting Started
 
-Currently, two official plugins are available:
+### Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+For development, you will only need [Node](http://nodejs.org/) installed in your
+environment.
+Please use the appropriate [Editorconfig](http://editorconfig.org/) plugin for your
+Editor (not mandatory).
 
-## Expanding the ESLint configuration
+### Install
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+    git clone git@github.com:Arvoya/resty.git
+    cd resty
+    npm install
 
-- Configure the top-level `parserOptions` property like this:
+### Configure app
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+No Current Environmental Variables
+
+### Start & watch
+
+    npm run dev
+    npm start
+
+## Architecture
+
+```bash
+├── .eslintrc.cjs
+├── .gitignore
+├── README.md
+├── index.html
+├── package-lock.json
+├── package.json
+├── public
+│   └── vite.svg
+├── src
+│   ├── App.scss
+│   ├── App.tsx
+│   ├── Components
+│   │   ├── Footer
+│   │   │   └── index.tsx
+│   │   ├── Form
+│   │   │   ├── Form.scss
+│   │   │   └── index.tsx
+│   │   ├── Header
+│   │   │   └── index.tsx
+│   │   └── Results
+│   │       └── index.tsx
+│   └── main.tsx
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# resty
+### Languages & tools
+
+- TypeScript
+- Vite
+- React
+
+## Change Log
+
+1.0.0
+
+## Collaborators
+
+John T. Gause III
+Brock Britton
