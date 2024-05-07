@@ -40,13 +40,16 @@ No Current Environmental Variables
 │   ├── App.tsx
 │   ├── Components
 │   │   ├── Footer
+│   │   │   ├── Footer.scss
 │   │   │   └── index.tsx
 │   │   ├── Form
 │   │   │   ├── Form.scss
 │   │   │   └── index.tsx
 │   │   ├── Header
+│   │   │   ├── Header.scss
 │   │   │   └── index.tsx
 │   │   └── Results
+│   │       ├── Results.scss
 │   │       └── index.tsx
 │   └── main.tsx
 ├── tsconfig.json
