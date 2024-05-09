@@ -7,7 +7,7 @@ type Result = {
 }
 
 type Data = {
-  count: number;
+  headers: object;
   results: Array<Result>;
 }
 

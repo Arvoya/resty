@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './App.scss';
 
@@ -10,41 +10,75 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
+import axios from 'axios';
 
-class App extends React.Component {
+type FormData = {
+  method: string;
+  url: string;
+}
+type Data = {
+  headers: object;
+  results: Array<Result>;
+}
+type Result = {
+  name: string;
+  url: string;
+}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: null,
-      requestParams: {},
-    };
+
+function App() {
+
+  const [data, setData] = useState<Data>();
+  const [requestParams, setRequestParams] = useState<FormData>({ method: '', url: '' });
+
+
+  const updateApi = async (requestParams: FormData) => {
+    if (!requestParams.method) {
+      alert('please click a method');
+    } else {
+      setRequestParams(requestParams);
+    }
   }
 
-  callApi = (requestParams) => {
-    // mock output
-    const data = {
-      count: 2,
-      results: [
-        {name: 'fake thing 1', url: 'http://fakethings.com/1'},
-        {name: 'fake thing 2', url: 'http://fakethings.com/2'},
-      ],
-    };
-    this.setState({data, requestParams});
+  const callAPI = async (requestParams: FormData) => {
+    const method = requestParams.method.toLowerCase();
+
+    const url = requestParams.url
+    const response = await axios({
+      method: method,
+      url: url,
+    })
+    const responseData = {
+      headers: response.headers,
+      results: response.data.results
+    }
+    setData(responseData);
   }
 
-  render() {
-    return (
-      <React.Fragment>
-        <Header />
-        <div>Request Method: {this.state.requestParams.method}</div>
-        <div>URL: {this.state.requestParams.url}</div>
-        <Form handleApiCall={this.callApi} />
-        <Results data={this.state.data} />
-        <Footer />
-      </React.Fragment>
-    );
-  }
+  useEffect(() => {
+  }, [data])
+
+
+  useEffect(() => {
+    if (requestParams.url == '') {
+      return;
+    }
+    else {
+      callAPI(requestParams);
+
+    }
+
+  }, [requestParams])
+  return (
+    <React.Fragment>
+      <Header />
+      <div>Request Method: {requestParams.method}</div>
+      <div>URL: {requestParams.url}</div>
+      <Form handleApiCall={updateApi} />
+      {data && <Results data={data} />}
+      <Footer />
+    </React.Fragment>
+  );
 }
 
 export default App;
