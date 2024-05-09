@@ -5,7 +5,7 @@ import App from './App.tsx';
 
 const server = setupServer(
   http.get('/*', () => {
-    return HttpResponse.json({ results: [{ name: 'banana', url: 'banana.com' }] })
+    return HttpResponse.json({ results: [{ name: 'YOYOYO', url: 'banana.com' }] })
   }),
   http.post('/*', () => {
     return HttpResponse.json({ greeting: 'You have done POST' })
@@ -31,8 +31,8 @@ describe('App Component', () => {
     fireEvent.click(getBtn);
     fireEvent.click(screen.getByText('GO!'));
     screen.debug();
-    const result = await screen.findByText(/banana.com/);
+    // const result = await screen.findByText(/YOYOYO/);
 
-    expect(result).toBeVisible();
+    expect(await screen.findByText(/YOYOYO/)).toBeVisible();
   })
 });

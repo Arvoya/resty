@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
+import apiReducer, { initialState, addParams, addData, addHistory } from './lib/reducer.ts';
+
+
 
 import './App.scss';
 
@@ -12,35 +15,53 @@ import Form from './Components/Form';
 import Results from './Components/Results';
 import axios from 'axios';
 
+type Action = {
+  type: string;
+  payload: object;
+};
+
 type FormData = {
   method: string;
   url: string;
-}
-type Data = {
-  headers: object;
-  results: Array<Result>;
-}
+};
+
 type Result = {
   name: string;
   url: string;
-}
+};
+type Data = {
+  headers: object;
+  results: Array<Result>;
+};
+
+type ApiInfo = {
+  method: string;
+  url: string;
+};
+
+type ApiState = {
+  data: object;
+  requestParams: object;
+  history: Array<ApiInfo>;
+};
 
 
 function App() {
 
-  const [data, setData] = useState<Data>();
-  const [requestParams, setRequestParams] = useState<FormData>({ method: '', url: '' });
+  const [state, dispatch] = useReducer(apiReducer, initialState);
+
 
 
   const updateApi = async (requestParams: FormData) => {
     if (!requestParams.method) {
       alert('please click a method');
     } else {
-      setRequestParams(requestParams);
+      dispatch(addParams(requestParams));
     }
   }
 
   const callAPI = async (requestParams: FormData) => {
+    console.log('requestParams', requestParams);
     const method = requestParams.method.toLowerCase();
 
     const url = requestParams.url
@@ -52,30 +73,27 @@ function App() {
       headers: response.headers,
       results: response.data.results
     }
-    setData(responseData);
+    dispatch(addData(responseData));
   }
 
-  useEffect(() => {
-  }, [data])
-
 
   useEffect(() => {
-    if (requestParams.url == '') {
+    if (state.requestParams.url == '') {
       return;
     }
     else {
-      callAPI(requestParams);
+      callAPI(state.requestParams);
 
     }
 
-  }, [requestParams])
+  }, [state.requestParams])
   return (
     <React.Fragment>
       <Header />
-      <div>Request Method: {requestParams.method}</div>
-      <div>URL: {requestParams.url}</div>
+      <div>Request Method: {state.requestParams.method}</div>
+      <div>URL: {state.requestParams.url}</div>
       <Form handleApiCall={updateApi} />
-      {data && <Results data={data} />}
+      {state.data && <Results data={state.data} />}
       <Footer />
     </React.Fragment>
   );
