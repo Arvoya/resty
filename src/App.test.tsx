@@ -30,7 +30,7 @@ describe('App Component', () => {
     fireEvent.change(urlInput, { target: { value: 'test/' } });
     fireEvent.click(getBtn);
     fireEvent.click(screen.getByText('GO!'));
-    await screen.debug();
+    screen.debug();
     const result = await screen.findByText(/banana.com/);
 
     expect(result).toBeVisible();
