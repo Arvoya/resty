@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './App.scss';
 
@@ -14,7 +14,7 @@ import axios from 'axios';
 
 type FormData = {
   method: string;
-  url: string | undefined;
+  url: string;
 }
 type Data = {
   headers: object;
@@ -28,36 +28,53 @@ type Result = {
 
 function App() {
 
-  const [data, setData] = useState<Data | undefined>();
+  const [data, setData] = useState<Data>();
   const [requestParams, setRequestParams] = useState<FormData>({ method: '', url: '' });
 
 
-  const callApi = async (requestParams: FormData) => {
-    const url = requestParams.url;
+  const updateApi = async (requestParams: FormData) => {
     if (!requestParams.method) {
       alert('please click a method');
     } else {
-      const method = requestParams.method.toLowerCase();
-      const response = await (axios[method])(url);
-
-      console.log(response);
-
-      const data = {
-        headers: response.headers,
-        results: response.data.results
-      }
-
-      setData(data);
       setRequestParams(requestParams);
     }
   }
 
+  const callAPI = async (requestParams: FormData) => {
+    const method = requestParams.method.toLowerCase();
+
+    const url = requestParams.url
+    const response = await axios({
+      method: method,
+      url: url,
+    })
+    const responseData = {
+      headers: response.headers,
+      results: response.data.results
+    }
+    setData(responseData);
+  }
+
+  useEffect(() => {
+  }, [data])
+
+
+  useEffect(() => {
+    if (requestParams.url == '') {
+      return;
+    }
+    else {
+      callAPI(requestParams);
+
+    }
+
+  }, [requestParams])
   return (
     <React.Fragment>
       <Header />
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
-      <Form handleApiCall={callApi} />
+      <Form handleApiCall={updateApi} />
       {data && <Results data={data} />}
       <Footer />
     </React.Fragment>

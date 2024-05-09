@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import './Form.scss';
 
 type FormData = {
-  method: string | undefined;
-  url: string | undefined;
+  method: string;
+  url: string;
 }
 
 interface FormProps {
@@ -11,8 +11,8 @@ interface FormProps {
 }
 
 function Form(props: FormProps): React.ReactElement {
-  const [url, setUrl] = useState<string>();
-  const [method, setMethod] = useState<string>();
+  const [url, setUrl] = useState<string>('');
+  const [method, setMethod] = useState<string>('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const url = event.target.value;
@@ -20,7 +20,8 @@ function Form(props: FormProps): React.ReactElement {
   };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const method = event.currentTarget.innerText;
+
+    const method = event.currentTarget.value;
     setMethod(method);
   }
 
@@ -38,14 +39,14 @@ function Form(props: FormProps): React.ReactElement {
       <form onSubmit={handleSubmit}>
         <label >
           <span>URL: </span>
-          <input name='url' onChange={handleChange} type='text' />
+          <input data-testid="url-input" onChange={handleChange} type="text" name="url" />
           <button type="submit">GO!</button>
         </label>
         <label className="methods">
-          <span id="get" onClick={handleClick}>GET</span>
-          <span id="post" onClick={handleClick}>POST</span>
-          <span id="put" onClick={handleClick}>PUT</span>
-          <span id="delete" onClick={handleClick}>DELETE</span>
+          <button id="get" value='GET' onClick={handleClick}>GET</button>
+          <button id="post" onClick={handleClick}>POST</button>
+          <button id="put" onClick={handleClick}>PUT</button>
+          <button id="delete" onClick={handleClick}>DELETE</button>
         </label>
       </form>
     </>
