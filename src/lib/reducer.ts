@@ -38,7 +38,7 @@ export const initialState: ApiState = {
   history: [],
 };
 
-function apiReducer(state = initialState, action: Action) {
+function apiReducer(state: ApiState = initialState, action: Action) {
   switch (action.type) {
     case "ADD_PARAMS":
       return {
@@ -64,7 +64,7 @@ function apiReducer(state = initialState, action: Action) {
 }
 
 // actions
-export const addParams = (newApi: ApiInfo): Action => {
+export const addParams = (newApi: FormData): Action => {
   return {
     type: "ADD_PARAMS",
     payload: newApi,

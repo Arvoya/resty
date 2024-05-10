@@ -15,35 +15,12 @@ import Results from './Components/Results';
 import History from './Components/History';
 import axios from 'axios';
 
-type Action = {
-  type: string;
-  payload: object;
-};
 
 type FormData = {
   method: string;
   url: string;
 };
 
-type Result = {
-  name: string;
-  url: string;
-};
-type Data = {
-  headers: object;
-  results: Array<Result>;
-};
-
-type ApiInfo = {
-  method: string;
-  url: string;
-};
-
-type ApiState = {
-  data: object;
-  requestParams: object;
-  history: Array<ApiInfo>;
-};
 
 
 function App() {
@@ -61,7 +38,7 @@ function App() {
     }
   }
 
-  const callAPI = async (requestParams: ApiInfo) => {
+  const callAPI = async (requestParams: FormData) => {
     if (requestParams.method === undefined) {
       return;
     } else {
@@ -80,7 +57,7 @@ function App() {
     }
   }
 
-  const handleHistoryClick = (clickedData: ApiInfo) => {
+  const handleHistoryClick = (clickedData: FormData) => {
     dispatch(addParams(clickedData));
   }
 
