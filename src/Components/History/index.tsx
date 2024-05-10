@@ -8,7 +8,6 @@ function History(props): React.ReactElement {
 	}
 
 
-
 	return (
 		<section>
 			<ul>
