@@ -30,7 +30,10 @@ type ApiState = {
 
 // initialState
 export const initialState: ApiState = {
-  data: {},
+  data: {
+    headers: {},
+    results: [],
+  },
   requestParams: {},
   history: [],
 };

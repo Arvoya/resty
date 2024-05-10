@@ -42,11 +42,11 @@ function Form(props: FormProps): React.ReactElement {
           <input data-testid="url-input" onChange={handleChange} type="text" name="url" />
           <button type="submit">GO!</button>
         </label>
-        <label className="methods">
-          <button id="get" value='GET' onClick={handleClick}>GET</button>
-          <button id="post" onClick={handleClick}>POST</button>
-          <button id="put" onClick={handleClick}>PUT</button>
-          <button id="delete" onClick={handleClick}>DELETE</button>
+        <label>
+          <button type="button" id="get" value='GET' onClick={handleClick}>GET</button>
+          <button type="button" id="post" value='POST' onClick={handleClick}>POST</button>
+          <button type="button" id="put" value='PUT' onClick={handleClick}>PUT</button>
+          <button type="button" id="delete" value='DELETE' onClick={handleClick}>DELETE</button>
         </label>
       </form>
     </>

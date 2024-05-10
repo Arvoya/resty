@@ -2,7 +2,6 @@ import React, { useReducer, useEffect } from 'react';
 import apiReducer, { initialState, addParams, addData, addHistory } from './lib/reducer.ts';
 
 
-
 import './App.scss';
 
 // Let's talk about using index.js and some other name in the component folder.
@@ -13,6 +12,7 @@ import Header from './Components/Header';
 import Footer from './Components/Footer';
 import Form from './Components/Form';
 import Results from './Components/Results';
+import History from './Components/History';
 import axios from 'axios';
 
 type Action = {
@@ -52,28 +52,36 @@ function App() {
 
 
 
-  const updateApi = async (requestParams: FormData) => {
-    if (!requestParams.method) {
+  const updateApi = (requestParams: FormData) => {
+    if (requestParams.method === undefined) {
       alert('please click a method');
     } else {
       dispatch(addParams(requestParams));
+      dispatch(addHistory(requestParams));
     }
   }
 
-  const callAPI = async (requestParams: FormData) => {
-    console.log('requestParams', requestParams);
-    const method = requestParams.method.toLowerCase();
+  const callAPI = async (requestParams: ApiInfo) => {
+    if (requestParams.method === undefined) {
+      return;
+    } else {
+      const method = requestParams.method.toLowerCase();
 
-    const url = requestParams.url
-    const response = await axios({
-      method: method,
-      url: url,
-    })
-    const responseData = {
-      headers: response.headers,
-      results: response.data.results
+      const url = requestParams.url
+      const response = await axios({
+        method: method,
+        url: url,
+      })
+      const responseData = {
+        headers: response.headers,
+        results: response.data.results
+      }
+      dispatch(addData(responseData));
     }
-    dispatch(addData(responseData));
+  }
+
+  const handleHistoryClick = (clickedData: ApiInfo) => {
+    dispatch(addParams(clickedData));
   }
 
 
@@ -93,6 +101,7 @@ function App() {
       <div>Request Method: {state.requestParams.method}</div>
       <div>URL: {state.requestParams.url}</div>
       <Form handleApiCall={updateApi} />
+      <History handleClick={handleHistoryClick} historyData={state.history} />
       {state.data && <Results data={state.data} />}
       <Footer />
     </React.Fragment>
